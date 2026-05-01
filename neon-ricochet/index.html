@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Neon Ricochet</title>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+
+    <div id="ui-layer">
+        <!-- Main Menu -->
+        <div id="main-menu" class="modal">
+            <h1 style="color: #00f3ff; text-shadow: 0 0 20px #00f3ff; font-size: 48px; margin-bottom: 30px;">Neon Ricochet</h1>
+            <div class="menu-buttons">
+                <button id="menuNewGameBtn" class="menu-btn">Новая игра</button>
+                <button id="menuInventoryBtn" class="menu-btn">Открытые предметы</button>
+                <button id="menuEncyclopediaBtn" class="menu-btn">Энциклопедия</button>
+                <button id="menuSettingsBtn" class="menu-btn">Настройки</button>
+                <button id="menuTalentEditorBtn" class="menu-btn" onclick="window.location.href='/editor.html'">Редактор талантов</button>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="modal hidden">
+            <h2 style="color: #00f3ff; text-shadow: 0 0 15px #00f3ff;">Настройки</h2>
+            <div class="settings-content">
+                <div class="setting-row">
+                    <label>Разрешение:</label>
+                    <select id="resolutionSelect">
+                        <option value="1280x720">1280 x 720</option>
+                        <option value="1920x1080" selected>1920 x 1080</option>
+                        <option value="2560x1440">2560 x 1440</option>
+                        <option value="3840x2160">3840 x 2160</option>
+                    </select>
+                </div>
+            </div>
+            <button id="settingsCloseBtn" class="menu-btn">Закрыть</button>
+        </div>
+
+        <!-- Inventory Modal -->
+        <div id="inventory-modal" class="modal hidden">
+            <h2 style="color: #00ff88; text-shadow: 0 0 15px #00ff88;">Открытые предметы</h2>
+            <div id="inventory-grid" class="upgrade-grid"></div>
+            <button id="inventoryCloseBtn" class="menu-btn">Закрыть</button>
+        </div>
+
+        <!-- Encyclopedia Modal -->
+        <div id="encyclopedia-modal" class="modal hidden">
+            <h2 style="color: #00f3ff; text-shadow: 0 0 15px #00f3ff;">Энциклопедия предметов</h2>
+            <div id="encyclopedia-grid" class="upgrade-grid"></div>
+            <button id="encyclopediaCloseBtn" class="menu-btn">Закрыть</button>
+        </div>
+
+        <div class="header">
+            <div class="header-left">
+                <h1>Neon Ricochet</h1>
+                <div class="level-info">Сектор <span id="sectorUI">1</span> | Уровень <span id="levelUI">1</span></div>
+                <div class="xp-container">
+                    <div class="xp-bar" id="xpBarUI"></div>
+                </div>
+            </div>
+            <div class="stats">
+                Броски: <span id="shotsUI">3</span><br>
+                Очки: <span id="scoreUI">0</span><br>
+                <span class="multiplier" id="comboUI">x1.0</span>
+            </div>
+        </div>
+        
+        <div id="inventory-panel"></div>
+
+        <button id="newGameBtnGlobal" class="hidden">Новая игра</button>
+        <button id="testSpiralBtn" class="hidden">Тест: Спираль</button>
+        <button id="testBrainBtn" class="hidden">Тест: Мозг</button>
+        <button id="debugSkipBtn" class="hidden">Отладка: След. сектор</button>
+        <button id="skipSectorBtn" class="hidden">Следующий сектор ⏭</button>
+        <button id="showMainMenuBtn" class="hidden">Вернуться в меню</button>
+        
+        <div class="instructions" id="instructionsUI">
+            <span style="color: #fff; font-weight: bold; text-shadow: 0 0 5px #fff;">Зажми и держи</span>, чтобы накопить силу.
+        </div>
+    </div>
+
+    <!-- Модалки -->
+    <div id="center-message" class="modal hidden">
+        <h2 id="msg-title">Сектор зачищен</h2>
+        <p id="msg-desc">Очищено: 0%</p>
+        <button id="restartBtn">Следующий сектор</button>
+    </div>
+
+    <div id="levelup-modal" class="modal hidden">
+        <h2 style="color: #b700ff; text-shadow: 0 0 15px #b700ff;">Повышение уровня!</h2>
+        <p>Выберите усиление вашей сферы:</p>
+        <div id="upgrade-options" class="upgrade-grid"></div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

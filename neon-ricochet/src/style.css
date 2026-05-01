@@ -1,0 +1,206 @@
+body, html {
+    margin: 0; padding: 0; width: 100%; height: 100%;
+    background-color: #0a0a0f; overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    user-select: none; -webkit-user-select: none; touch-action: none;
+}
+
+#gameCanvas {
+    display: block; position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%; z-index: 1;
+}
+
+#ui-layer {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; display: flex; flex-direction: column;
+    justify-content: space-between; padding: 20px; box-sizing: border-box; z-index: 10;
+}
+
+.header { display: flex; justify-content: space-between; align-items: flex-start; text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); width: 100%; }
+.header-left { display: flex; flex-direction: column; }
+h1 { margin: 0; color: #fff; font-size: 24px; letter-spacing: 2px; text-transform: uppercase; }
+
+.level-info { color: #00f3ff; font-weight: bold; font-size: 16px; margin-top: 5px; text-shadow: 0 0 5px rgba(0, 243, 255, 0.5); }
+.xp-container { width: 250px; height: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 5px; margin-top: 5px; overflow: hidden; }
+.xp-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #b700ff, #00f3ff); transition: width 0.3s ease-out; box-shadow: 0 0 10px #00f3ff; }
+
+.stats { color: #a0a0b5; font-size: 18px; text-align: right; }
+.stats span { color: #fff; font-weight: bold; font-size: 22px; }
+.multiplier { color: #ff007f !important; font-size: 16px !important; transition: all 0.2s; }
+
+#inventory-panel {
+    position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 10px; pointer-events: auto;
+    max-height: 80vh; overflow-y: auto; padding-right: 5px;
+}
+
+.inv-slot {
+    width: 70px; height: 70px; background: rgba(20, 20, 30, 0.85);
+    border: 2px solid #00f3ff; border-radius: 12px; display: flex;
+    align-items: center; justify-content: center; flex-direction: column;
+    color: #fff; text-align: center; box-shadow: 0 0 15px rgba(0, 243, 255, 0.15); backdrop-filter: blur(4px);
+}
+.inv-slot .inv-lvl { font-weight: bold; color: #b700ff; font-size: 14px; text-shadow: 0 0 5px #b700ff; margin-bottom: 2px; }
+.inv-slot .inv-title { font-size: 10px; line-height: 1.1; padding: 0 2px; color: #a0a0b5; }
+
+.modal {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    text-align: center; color: #fff; background: rgba(10, 10, 15, 0.95);
+    padding: 30px; border-radius: 15px; border: 1px solid #00f3ff;
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.2); backdrop-filter: blur(8px);
+    pointer-events: auto; transition: opacity 0.3s; z-index: 200;
+}
+.modal h2 { font-size: 32px; margin: 0 0 10px 0; color: #00f3ff; text-shadow: 0 0 10px #00f3ff; }
+.modal p { color: #a0a0b5; margin-bottom: 20px; }
+
+.upgrade-grid { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+.upgrade-card {
+    background: rgba(20, 20, 30, 0.9); border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px; padding: 15px; width: 200px; cursor: pointer;
+    transition: all 0.2s; text-align: left;
+}
+.upgrade-card:hover { border-color: #ff007f; box-shadow: 0 0 20px rgba(255, 0, 127, 0.4); transform: translateY(-5px); }
+.upgrade-card h3 { margin: 0 0 8px 0; color: #fff; font-size: 18px; display: flex; justify-content: space-between; }
+.upgrade-card .lvl { color: #ff007f; font-size: 14px; }
+.upgrade-card p { color: #a0a0b5; font-size: 13px; margin: 0; line-height: 1.4; }
+
+button {
+    background: rgba(10, 10, 15, 0.8); border: 2px solid #00f3ff; color: #00f3ff;
+    padding: 12px 30px; font-size: 18px; font-weight: bold; text-transform: uppercase;
+    cursor: pointer; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 243, 255, 0.3), inset 0 0 10px rgba(0, 243, 255, 0.1);
+    transition: all 0.2s; pointer-events: auto; margin-top: 20px; backdrop-filter: blur(4px);
+}
+button:hover { background: #00f3ff; color: #0a0a0f; box-shadow: 0 0 20px rgba(0, 243, 255, 0.6); }
+
+.hidden { display: none !important; }
+
+.instructions {
+    position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+    color: #606075; font-size: 16px; text-align: center; pointer-events: none;
+    background: rgba(10, 10, 15, 0.7); padding: 10px 20px; border-radius: 10px; backdrop-filter: blur(4px);
+}
+
+#newGameBtnGlobal { position: fixed; bottom: 20px; left: 20px; padding: 8px 16px; font-size: 14px; margin: 0; border-color: #ff003c; color: #ff003c; box-shadow: 0 0 10px rgba(255, 0, 60, 0.3); z-index: 50; }
+#newGameBtnGlobal:hover { background: #ff003c; color: #fff; box-shadow: 0 0 20px rgba(255, 0, 60, 0.6); }
+
+#testSpiralBtn { position: fixed; bottom: 60px; left: 20px; padding: 8px 16px; font-size: 14px; margin: 0; border-color: #b700ff; color: #b700ff; box-shadow: 0 0 10px rgba(183, 0, 255, 0.3); z-index: 50; }
+#testSpiralBtn:hover { background: #b700ff; color: #fff; box-shadow: 0 0 20px rgba(183, 0, 255, 0.6); }
+
+#testBrainBtn { position: fixed; bottom: 100px; left: 20px; padding: 6px 12px; font-size: 12px; margin: 0; border-color: #00f3ff; color: #00f3ff; box-shadow: 0 0 10px rgba(0, 243, 255, 0.3); z-index: 50; }
+#testBrainBtn:hover { background: #00f3ff; color: #0a0a0f; box-shadow: 0 0 20px rgba(0, 243, 255, 0.6); }
+
+#debugSkipBtn { position: fixed; bottom: 140px; left: 20px; padding: 6px 12px; font-size: 12px; margin: 0; border-color: #00ff44; color: #00ff44; box-shadow: 0 0 10px rgba(0, 255, 68, 0.3); z-index: 50; }
+#debugSkipBtn:hover { background: #00ff44; color: #0a0a0f; box-shadow: 0 0 20px rgba(0, 255, 68, 0.6); }
+
+#skipSectorBtn { position: fixed; bottom: 20px; right: 20px; padding: 8px 16px; font-size: 14px; margin: 0; border-color: #00ff44; color: #00ff44; box-shadow: 0 0 10px rgba(0, 255, 68, 0.3); z-index: 50; }
+#skipSectorBtn:hover { background: #00ff44; color: #0a0a0f; box-shadow: 0 0 20px rgba(0, 255, 68, 0.6); }
+
+#showMainMenuBtn { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 8px 16px; font-size: 14px; margin: 0; border-color: #00f3ff; color: #00f3ff; z-index: 50; }
+#showMainMenuBtn:hover { background: #00f3ff; color: #0a0a0f; }
+
+#main-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 500px;
+    min-height: 400px;
+    z-index: 200;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.menu-btn {
+    background: linear-gradient(135deg, rgba(0, 243, 255, 0.2), rgba(0, 85, 255, 0.2));
+    border: 2px solid #00f3ff;
+    color: #00f3ff;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+    transition: all 0.2s;
+    pointer-events: auto;
+}
+
+.menu-btn:hover {
+    background: #00f3ff;
+    color: #0a0a0f;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.6);
+    transform: scale(1.05);
+}
+
+.settings-content {
+    margin: 30px 0;
+    color: #fff;
+}
+
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    font-size: 16px;
+}
+
+.setting-row label {
+    color: #a0a0b5;
+}
+
+.setting-row select {
+    background: rgba(20, 20, 30, 0.9);
+    color: #00f3ff;
+    border: 2px solid #00f3ff;
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+#inventory-grid, #encyclopedia-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+#inventory-grid .inv-card, #encyclopedia-grid .inv-card {
+    background: rgba(20, 20, 30, 0.9);
+    border: 2px solid #00ff88;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+}
+
+#inventory-grid .inv-card .inv-lvl {
+    font-weight: bold;
+    color: #b700ff;
+    font-size: 18px;
+    text-shadow: 0 0 5px #b700ff;
+    margin-bottom: 5px;
+}
+
+#inventory-grid .inv-card .inv-title {
+    font-size: 14px;
+    color: #00ff88;
+    margin-bottom: 8px;
+}
+
+#inventory-grid .inv-card .inv-desc {
+    font-size: 12px;
+    color: #a0a0b5;
+    line-height: 1.4;
+}

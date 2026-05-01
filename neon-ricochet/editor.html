@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talent Tree Editor</title>
+    <link rel="stylesheet" href="/src/editor.css">
+</head>
+<body>
+    <div id="app">
+        <canvas id="editorCanvas"></canvas>
+        <div id="ui-layer">
+            <div id="toolbar">
+                <button id="btnExport">Export JSON</button>
+                <button id="btnImport">Import JSON</button>
+                <input type="file" id="fileInput" accept=".json" style="display: none;">
+            </div>
+
+            <!-- Context Popup (Node Creation) -->
+            <div id="contextPopup" class="modal hidden">
+                <h3>Create Node</h3>
+                <div class="form-group">
+                    <label>Type:</label>
+                    <select id="nodeType">
+                        <option value="minor">Minor</option>
+                        <option value="notable">Notable</option>
+                        <option value="keystone">Keystone</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Unique ID:</label>
+                    <input type="text" id="nodeId" placeholder="e.g. speed_boost_01">
+                </div>
+                <div class="form-actions">
+                    <button id="btnCreateNode">Create</button>
+                    <button id="btnCancelNode">Cancel</button>
+                </div>
+            </div>
+
+            <!-- Property Inspector -->
+            <div id="propertyInspector" class="panel hidden">
+                <h3>Node Properties</h3>
+                <div class="form-group">
+                    <label>ID:</label>
+                    <input type="text" id="propId">
+                </div>
+                <div class="form-group">
+                    <label>Max Level:</label>
+                    <input type="number" id="propMaxLevel" min="1" value="1">
+                </div>
+                <div class="form-actions">
+                    <button id="btnSaveProps">Save</button>
+                    <button id="btnDeleteNode" class="danger">Delete Node</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="/src/editor.ts"></script>
+</body>
+</html>
